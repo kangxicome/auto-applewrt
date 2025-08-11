@@ -14,5 +14,12 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+#echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
 #echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+# Add aliddns
+mkdir -p package/feeds
+git clone https://github.com/honwen/luci-app-aliddns.git package/feeds/luci-app-aliddns
+pushd package/feeds/luci-app-aliddns/tools/po2lmo
+make && sudo make install
+popd
+sed -i '/^#src-git helloworld/s/^#//' feeds.conf.default
